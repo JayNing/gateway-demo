@@ -26,7 +26,7 @@ public class LoginController {
      * 账号admin
      * 密码123456
      */
-    private final static HashMap<String, User> USER_MAP = new LinkedHashMap<>() {
+    private final static HashMap<String, User> USER_MAP = new LinkedHashMap<String, User>() {
         {
             put("admin", new User()
                     .setUserId(1L)
@@ -79,7 +79,9 @@ public class LoginController {
                 .stream()
                 .filter(u -> u.getUserId().equals(userId))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> {
+                    return null;
+                });
         return ResponseResult.ok(user);
     }
 
