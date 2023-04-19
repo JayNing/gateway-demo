@@ -14,4 +14,5 @@ public class IndexController {
     public String get() {
         return "我是服务2";
     }
+
 }

@@ -12,8 +12,8 @@ spring:
         enabled: true
     nacos:
       discovery:
-        server-addr: 192.168.41.128:8848
-        namespace: 4c016e5c-cacb-44d5-955d-22754ede9fce
+        server-addr: 127.0.0.1:8848
+        namespace: a81d9e02-5853-4815-b89d-b5abcdabaead
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}

@@ -1,4 +1,4 @@
-package com.cli.gateway.config;
+package com.cli.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.common.utils.StringUtils;
@@ -52,6 +52,9 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         // 逻辑自行实现
         String token = this.getToken(exchange.getRequest());
         log.info("token:{}", token);
+        if (StringUtils.isBlank(token)) {
+            return false;
+        }
         return true;
     }
 

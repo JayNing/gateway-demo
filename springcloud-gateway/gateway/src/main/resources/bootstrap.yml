@@ -12,8 +12,8 @@ spring:
         enabled: true
     nacos:
       discovery:
-        server-addr: 192.168.41.128:8848
-        namespace: 4c016e5c-cacb-44d5-955d-22754ede9fce
+        server-addr: 127.0.0.1:8848
+        namespace: a81d9e02-5853-4815-b89d-b5abcdabaead
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
@@ -30,20 +30,50 @@ spring:
           enabled: true
           lowerCaseServiceId: true
       routes:
+        # This predicate matches requests that happen after the specified datetime
+        - id: after_route
+          uri: lb://server-1
+          predicates:
+            - Path=/server1/**
+            - After=2023-04-19T10:42:47.789-07:00[Asia/Shanghai]
+          filters:
+            - StripPrefix=0
+        # This predicate matches requests that happen before the specified datetime
+        - id: server-2
+          uri: lb://server-2
+          predicates:
+            - Before=2023-04-19T11:42:47.789-07:00[Asia/Shanghai]
+          filters:
+            - StripPrefix=0
+        #  Cookie 路由断言工厂，即 cookie名称、mycookie和匹配 mycookievalue的值。
+        - id: server-cookie-1
+          uri: lb://server-1
+          predicates:
+            - Cookie=userTag, tag1
+          filters:
+            - StripPrefix=1
+        #  Cookie 路由断言工厂，即 cookie名称、mycookie和匹配 mycookievalue的值。
+        - id: server-cookie-2
+          uri: lb://server-2
+          predicates:
+            - Cookie=userTag, tag2
+          filters:
+            - StripPrefix=1
         # 服务1
         - id: server-1
           # 服务地址
           uri: lb://server-1
           # 拦截的路由
           predicates:
-            - Path=/server1/**
+            - Path=/test/**
           # 转发时去除前缀数量，当为1时:原：/server1/a/b/c  转发后为 /a/b/c
           filters:
             - StripPrefix=0
         # 服务2
-        - id: server-2
-          uri: lb://server-2
-          predicates:
-            - Path=/server2/**
-          filters:
-            - StripPrefix=0
+#        - id: server-2
+#          uri: lb://server-2
+#          predicates:
+#            - Path=/server2/**
+#          filters:
+#            - StripPrefix=0
+
