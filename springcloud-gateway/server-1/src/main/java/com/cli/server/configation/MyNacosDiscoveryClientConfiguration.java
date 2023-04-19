@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * desc: 自定义nacos元数据
+ * desc: 自定义nacos元数据---nacos进行服务注册时，添加自定义元数据
  * createBy: Ningjianjian
  */
 @Slf4j
